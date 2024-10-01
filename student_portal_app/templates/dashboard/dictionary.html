@@ -1,0 +1,44 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block contents %}
+<select class="text-center container">
+    <h2>Search articles in wikipedia</h2>
+    <p>Enter any word to get the phonetics, definition and an example for the word </p>
+
+    <form action="{% url 'dictionary' %}" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" class="btn btn-danger" value="Submit">
+    </form><br>
+
+    {% if input %}
+    <div class="content-selection p-0 mt-5">
+        <div class="custom-header">
+            <h2>{{input}}</h2>
+            <h6>{{phonetics}}</h6>
+            <audio src="{{audio}}" id="player"></audio>
+            <div>
+                <a on-cliick="document.getElementById('player').play()" href=""><i class="fa fa-volume-up fa-2x"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <hr class="p-0 m-0">
+
+    <p class="float-left">
+        <h4>Definition: {{definition}}</h4>
+        <h4>Example: {{example}}</h4>
+    </p>
+
+    Synonyms:
+    {% for synonym in synonyms %}
+    {{synonym}}
+    {% endfor %}
+    <hr>
+
+    {% else %}
+    <h2>Sorry, API request limit exceeded</h2>
+
+</select>
+{% endblock %}

@@ -1,8 +1,23 @@
 from django.urls import path
 from student_portal_app.views import(
-    register
+    home,
+    notes,
+    conversation,
+    todo,
+    homework,
+    wiki,
+    dictionary,
+    youtube,
 )
 
 urlpatterns = [
-    path('', register, name='home')
+    path('', home, name='home'),
+    path('notes/', notes, name='notes'),
+    path('conversation/', conversation, name='convasation'),
+    path('todo/', todo, name='todo'),
+    path('homework', homework, name='homework'),
+    path('wiki/', wiki, name='wiki'),
+    path('dictionary/', dictionary, name='dictionary'),
+    path('notes', notes, name='notes'),
+    path('youtube', youtube, name='youtube'),
 ]

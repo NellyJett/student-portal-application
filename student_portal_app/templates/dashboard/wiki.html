@@ -1,0 +1,35 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block contents %}
+<select class="text-center container">
+    <h2>Search articles in wikipedia</h2>
+    <p>Just enter the search query to obtain the result </p><b>Enter without any space</b>
+
+    <form action="{% url 'wiki' %}" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" class="btn btn-danger" value="Submit">
+    </form><br>
+
+
+    <h3>{{input}}</h3>
+    <div class="container">
+
+        <div class="content-selector p-0 mt-5">
+            <a href="{{link}}" class="p-0 m-0" target="_blank">
+                <div class="custon-hearder">
+                    <h2>{{ttle}}</h2>{{title}}
+                    <h6>{{title}}</h6>
+                </div>
+            </a>
+            <hr class="p-0 m-0">
+            <div class="description m-5 p-5">
+                {{details}}
+            </div>
+            <hr>
+        </div>
+    </div>
+</select>
+
+{% endblock %}
