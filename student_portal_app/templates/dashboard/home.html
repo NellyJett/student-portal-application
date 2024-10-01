@@ -1,0 +1,111 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block contents %}
+
+<section class="container-fluid text-center">
+    <h3>Welcome</h3>
+
+    <hr><br>
+    <div class="d-flex justify-content-start" style="flex-wrap: wrap; padding-left: 18px;">
+        <div class="col-md-3">
+            <a href="" class="no-underline" style="text-decoration: none;">
+                <div class="card custom-shadow" style="width: 18rem;">
+                    <img src="{% static 'images/notes4.jpg' %}" class="card-img-top" alt="Notes image">
+                    <div class="card-body">
+                        <h5 class="card-title">Notes</h5>
+                        <p class="card-text">Create notes to refer to them later; they are stored permanently until deleted.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="" class="no-underline" style="text-decoration: none;">
+                <div class="card custom-shadow" style="width: 18rem;">
+                    <img src="{% static 'images/homework2.jpg' %}" class="card-img-top" alt="Homework image">
+                    <div class="card-body">
+                        <h5 class="card-title">Homework</h5>
+                        <p class="card-text">Add homework and assign them deadlines. They will be displayed prioritised by deadlines.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="" class="no-underline" style="text-decoration: none;">
+                <div class="card custom-shadow" style="width: 18rem; height: 387px;">
+                    <img src="{% static 'images/youtube3.webp' %}" class="card-img-top" alt="Youtube image">
+                    <div class="card-body">
+                        <h5 class="card-title">Youtube</h5>
+                        <p class="card-text">Search Youtube and select the desired video to play it on youtube</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="" class="no-underline" style="text-decoration: none;">
+                <div class="card custom-shadow" style="width: 18rem; height: 387px;">
+                    <img src="{% static 'images/todo2.jpg' %}" class="card-img-top" alt="Homework image">
+                    <div class="card-body">
+                        <h5 class="card-title">To Do</h5>
+                        <p class="card-text">Add to-do lists for your day and remove them as you finish.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div> <br> <br>
+
+    <div class="d-flex justify-content-start" style="flex-wrap: wrap; padding-left: 18px;">
+        <div class="col-md-3">
+            <a href="" class="no-underline" style="text-decoration: none;">
+                <div class="card custom-shadow" style="width: 18rem; height: 387px;">
+                    <img src="{% static 'images/book2.jpg' %}" class="card-img-top" alt="Notes image">
+                    <div class="card-body">
+                        <h5 class="card-title">Books</h5>
+                        <p class="card-text">Browse books from a lists of neatly organised book menu</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="" class="no-underline" style="text-decoration: none;">
+                <div class="card custom-shadow" style="width: 18rem; height: 387px;">
+                    <img src="{% static 'images/dict3.jpeg' %}" class="card-img-top" alt="Homework image">
+                    <div class="card-body">
+                        <h5 class="card-title">Dictionaries</h5>
+                        <p class="card-text">A vocabulary from a book is trupling you? No problem, enter the word, and the meaning will be displayed.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="" class="no-underline" style="text-decoration: none;">
+                <div class="card custom-shadow" style="width: 18rem; height: 387px;">
+                    <img src="{% static 'images/wiki2.jpeg' %}" class="card-img-top" alt="Youtube image">
+                    <div class="card-body">
+                        <h5 class="card-title">WikiPedia</h5>
+                        <p class="card-text">Homework and assignments? Search wikipedia to get fast result.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="" class="no-underline" style="text-decoration: none;">
+                <div class="card custom-shadow" style="width: 18rem; height: 387px;">
+                    <img src="{% static 'images/ruler.webp' %}" class="card-img-top" alt="Homework image">
+                    <div class="card-body">
+                        <h5 class="card-title">Conversation</h5>
+                        <p class="card-text">Check out the conversation table, that helps you to convert measurements to more familia once of your choice.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section><br>
+
+{% endblock %}

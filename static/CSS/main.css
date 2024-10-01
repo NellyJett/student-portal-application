@@ -1,0 +1,14 @@
+h1{
+    color: red;
+    
+}
+
+/* .col-md-3{
+    box-shadow: 0 0 8px 0 !important;
+} */
+.custom-shadow{
+    box-shadow: 10px 8px 20px rgba(0, 0, 0, 0.7) !important;
+}
+.card-img-top{
+    height: 250px !important;
+}
