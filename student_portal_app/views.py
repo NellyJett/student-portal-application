@@ -61,58 +61,47 @@ def wiki(request):
     else:
         form = DashboardForm()
 
-    return render(request, 'dashboard/wiki.html', {'form': form})
-
-
-# def wiki(request):
-#     if request.method == 'POST':
-#         text = request.POST['text']
-#         form = DashboardForm(request.POST)
-#         search = wikipedia.page(text)
-
-#         context = {
-#             'form':form,
-#             'title':search.title,
-#             'link':search.link,
-#             'details':search.summary
-#         }
-#         return render(request, 'dashboard/wiki.html', context)
-#     else:
-#         form = DashboardForm
-#         return render(request, 'dashboard/wiki.html', {'form':form})
-    
+    return render(request, 'dashboard/wiki.html', {'form': form}) 
 
 def youtube(request):
     if request.method == 'POST':
         form = DashboardForm(request.POST)
         if form.is_valid():
             text = form.cleaned_data['text']
-            video = VideoSearch(text, limit=5)
+            try:
+                # Perform YouTube search
+                video = VideosSearch(text, limit=6)
+                video_results = video.result()['result']
 
-            result_list = []
-            for i in video.result()['result']:  
-                result_dict = {
-                    'input': text,
-                    'title': i.get('title'),
-                    'duration': i.get('duration'),
-                    'thumbnail': i['thumbnails'][0]['url'] if i.get('thumbnails') else '',
-                    'channel': i['channel']['name'],
-                    'link': i['link'],
-                    'views': i.get('viewCount', {}).get('short'),
-                    'published': i.get('publishedTime'),
-                    'description': ''
-                }
+                result_list = []
+                for i in video_results:
+                    result_dict = {
+                        'input': text,
+                        'title': i.get('title', 'No title'),
+                        'duration': i.get('duration', 'Unknown duration'),
+                        'thumbnail': i['thumbnails'][0]['url'] if i.get('thumbnails') else '',
+                        'channel': i['channel']['name'] if 'channel' in i else 'Unknown channel',
+                        'link': i.get('link', '#'),
+                        'views': i.get('viewCount', {}).get('short', 'Unknown views'),
+                        'published': i.get('publishedTime', 'Unknown time'),
+                        'description': ''
+                    }
 
-                # Process description snippet if available
-                desc = ''
-                if 'descriptionSnippet' in i:
-                    for j in i['descriptionSnippet']:
-                        desc += j['text']
-                    result_dict['description'] = desc
+                    # Process description snippet if available
+                    desc = ''
+                    if 'descriptionSnippet' in i:
+                        for j in i['descriptionSnippet']:
+                            desc += j.get('text', '')
+                        result_dict['description'] = desc
 
-                result_list.append(result_dict)
+                    result_list.append(result_dict)
 
-            return render(request, 'dashboard/youtube.html', {'form': form, 'results': result_list})
+                return render(request, 'dashboard/youtube.html', {'form': form, 'results': result_list})
+
+            except Exception as e:
+                # Handle exceptions such as API errors
+                error_message = f"An error occurred while fetching YouTube videos: {str(e)}"
+                return render(request, 'dashboard/youtube.html', {'form': form, 'error': error_message})
 
     else:
         form = DashboardForm()

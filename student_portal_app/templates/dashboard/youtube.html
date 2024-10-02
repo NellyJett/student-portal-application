@@ -2,44 +2,48 @@
 {% load static %}
 
 {% block contents %}
-<select class="text-center container">
-    <h2>Search articles in wikipedia</h2>
-    <p>Just enter the search query to obtain the result </p><b>Enter without any space</b>
+<div class="text-center container">
+    <h2>Search YouTube Videos</h2>
+    <p>Just enter the search query to get the results</p><b>Enter without any space</b>
 
-    <form action="{% url 'youtube' %}" method="POST">
+    <form action="{% url 'youtube' %}" method="POST" class="mt-3">
         {% csrf_token %}
-        {{ form }}
-        <input type="submit" class="btn btn-danger" value="Submit">
-    </form><br>
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-danger mt-2" value="Submit">
+    </form>
 
-    <h3>{{input}}</h3>
-    {% for result in results %}
-    <a href="{{result.link}}" target="_blank">
-        <div class="card">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-md-5">
-                        <img src="{{result.thumbnail}}" class="img-fluid" alt="">
+    <br>
+
+    {% if results %}
+        <h3 class="mt-5">Results for: {{ input }}</h3>
+
+        <div class="row mt-4">
+            {% for result in results %}
+            <div class="col-md-6 mb-4">
+                <a href="{{ result.link }}" target="_blank" class="text-decoration-none text-dark">
+                    <div class="card h-100">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ result.thumbnail }}" class="img-fluid rounded-start" alt="Thumbnail for {{ result.title }}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ result.title }}</h5>
+                                    <p class="card-text">
+                                        <strong>Channel:</strong> {{ result.channel }}<br>
+                                        <strong>Description:</strong> {{ result.description }}<br>
+                                        <strong>Duration:</strong> {{ result.duration }}<br>
+                                        <strong>Views:</strong> {{ result.views }}<br>
+                                        <strong>Published:</strong> {{ result.published }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-7">
-                        <h3 class="p-0 m-0">{{result.title}}</h3>
-                        <b>
-                            <u>
-                                <h5 class="p-0 m-0">{{result.channel}}</h5>
-                            </u>
-                        </b>
-                        <h6 class="p-0 m-1">{{result.description}}</h6>
-                        <b>
-                            <h6 class="ml-0 mt-3">Duration: {{result.duration}}</h6>
-                            <h6 class="p-0 m-1">{{result.views}}</h6>
-                            <h6 class="p-0 m-1">{{result.published}}</h6>
-                        </b>
-                    </div>
-                </div>
+                </a>
             </div>
+            {% endfor %}
         </div>
-    </a>
-    {% endfor %}
-</select>
-
+    {% endif %}
+</div>
 {% endblock %}
