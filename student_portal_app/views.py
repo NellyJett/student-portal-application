@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 import requests
 import wikipedia
-from youtubesearchpython import VideoSearch
+from youtubesearchpython import VideosSearch
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views import generic
@@ -14,34 +14,72 @@ def home(request):
     return render(request, 'dashboard/home.html')
 
 def register(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         u_form = UserRegistrationForm(request.POST)
         if u_form.is_valid():
             u_form.save()
-            username = u_form.clean_data.get('username')
+            username = u_form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}!')
-            return redirect('login')
-        else:
-            u_form = UserRegistrationForm()
-        return render(request, )
-    
+            return redirect('login')  
+    else:
+        u_form = UserRegistrationForm()
+
+    return render(request, 'dashboard/register.html', {'form': u_form})
 
 def wiki(request):
     if request.method == 'POST':
-        text = request.POST['text']
         form = DashboardForm(request.POST)
-        search = wikipedia.page(text)
+        if form.is_valid():
+            text = form.cleaned_data['text']
+            try:
+                # Retrieve the Wikipedia page based on the search term
+                search = wikipedia.page(text)
 
-        context = {
-            'form':form,
-            'title':search.title,
-            'link':search.link,
-            'details':search.summary
-        }
-        return render(request, 'dashboard/wiki.html', context)
+                context = {
+                    'form': form,
+                    'title': search.title,
+                    'link': search.url, 
+                    'details': search.summary
+                }
+
+            except wikipedia.exceptions.DisambiguationError as e:
+                # Handle disambiguation error (multiple results found)
+                context = {
+                    'form': form,
+                    'error': f"Multiple results found for '{text}': {e.options}"
+                }
+
+            except wikipedia.exceptions.PageError:
+                # Handle error if the page doesn't exist
+                context = {
+                    'form': form,
+                    'error': f"No results found for '{text}'"
+                }
+
+            return render(request, 'dashboard/wiki.html', context)
+
     else:
-        form = DashboardForm
-        return render(request, 'dashboard/wiki.html', {'form':form})
+        form = DashboardForm()
+
+    return render(request, 'dashboard/wiki.html', {'form': form})
+
+
+# def wiki(request):
+#     if request.method == 'POST':
+#         text = request.POST['text']
+#         form = DashboardForm(request.POST)
+#         search = wikipedia.page(text)
+
+#         context = {
+#             'form':form,
+#             'title':search.title,
+#             'link':search.link,
+#             'details':search.summary
+#         }
+#         return render(request, 'dashboard/wiki.html', context)
+#     else:
+#         form = DashboardForm
+#         return render(request, 'dashboard/wiki.html', {'form':form})
     
 
 def youtube(request):
