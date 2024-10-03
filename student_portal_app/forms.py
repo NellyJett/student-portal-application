@@ -1,9 +1,11 @@
 from django import forms
+from django.forms import RadioSelect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from student_portal_app.models import(
     Notes,
     Homework,
+    Todo
 )
 
 class DashboardForm(forms.Form):
@@ -40,3 +42,24 @@ class UserRegistrationForm(UserCreationForm):
         # Remove help_text for each field
         for field in self.fields.values():
             field.help_text = None
+
+class TodoForm(forms.ModelForm):
+    class Meta:
+        model = Todo
+        fields = ['title', 'is_finished']
+
+class ConversationForm(forms.Form):
+    CHOICES = [('length','Length'), ('mass', 'Mass')]
+    measurement = forms.ChoiceField(choices=CHOICES, widget=RadioSelect)
+
+class ConversationLengthForm(forms.Form):
+    CHOICES = [('yard', 'Yard'), ('foot', 'Foot')]
+    input = forms.CharField(required=False, label=False, widget=forms.TextInput(attrs={'type':'number', 'placeholder':'Enter the number'}))
+    measure1 = forms.CharField(label='', widget=forms.Select(choices=CHOICES))
+    measure2 = forms.CharField(label='', widget=forms.Select(choices=CHOICES))
+
+class ConversationMassForm(forms.Form):
+    CHOICES = [('pound', 'Pound'), ('kilogram', 'Kilogram')]
+    input = forms.CharField(required=False, label=False, widget=forms.TextInput(attrs={'type':'number', 'placeholder':'Enter the number'}))
+    measure1 = forms.CharField(label='', widget=forms.Select(choices=CHOICES))
+    measure2 = forms.CharField(label='', widget=forms.Select(choices=CHOICES))

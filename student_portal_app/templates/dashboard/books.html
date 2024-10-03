@@ -2,49 +2,48 @@
 {% load static %}
 
 {% block contents %}
-<select class="text-center container">
+<div class="text-center container">
     <h2>Search books and browse your favourite</h2>
-    <p>Just enter the search query to obtain the result </p>
+    <p>Just enter the search query to obtain the result</p>
 
-    <form action="{% url 'wiki' %}" method="POST">
+    <form action="{% url 'books' %}" method="POST">  <!-- Update to correct URL -->
         {% csrf_token %}
         {{ form }}
         <input type="submit" class="btn btn-danger" value="Submit">
     </form><br>
 
-    <h3>{{input}}</h3>
-    <h4></h4>
+    <h3>{{ input }}</h3>
     {% for result in results %}
-    <a href="{{result.preview}}" target="_blank">
+    <a href="{{ result.preview }}" target="_blank">
         <div class="card">
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-3">
-                        <img src="{{result.thumbnail}}" alt="">
+                        <img src="{{ result.thumbnail }}" alt="" class="img-fluid">
                     </div>
                     <div class="col-md-9">
-                        <h3 p-0 m-0>{{ressult.title}}</h3>
+                        <h3 class="p-0 m-0">{{ result.title }}</h3>  <!-- Fixed variable name -->
                         <b>
                             <u>
                                 {% if result.subtitle %}
-                                <h5 class="p-0 m-0">{{result.subtitle}}</h5>
-                                {%% endif }
+                                <h5 class="p-0 m-0">{{ result.subtitle }}</h5>
+                                {% endif %}  <!-- Fixed template tag -->
                             </u>
                         </b>
                         {% if result.description %}
-                        <h5 class="p-0 m-1">{{result.description}}</h5>
+                        <h5 class="p-0 m-1">{{ result.description }}</h5>
                         {% endif %}
 
                         <b>
                             {% if result.categories %}
-                            <h6 class="ml-0 mt-3 ">Category: 
+                            <h6 class="ml-0 mt-3">Category: 
                                 {% for category in result.categories %}
-                                {{category}}
+                                {{ category }}{% if not forloop.last %}, {% endif %}  <!-- Add commas between categories -->
                                 {% endfor %}
                             </h6>
                             {% endif %}
                             {% if result.rating %}
-                            <h6 class="ml-0 mt-1">Rating: {{result.rating}}</h6>
+                            <h6 class="ml-0 mt-1">Rating: {{ result.rating }}</h6>
                             {% endif %}
                         </b>
                     </div>
@@ -52,7 +51,6 @@
             </div>
         </div>
     </a>
-
-</select>
-
+    {% endfor %}
+</div>
 {% endblock %}
